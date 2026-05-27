@@ -22,7 +22,7 @@ const Config = {
 
   getAiApiKey: () => store.get('ai.apiKey'),
   setAiApiKey: (key) => store.set('ai.apiKey', key),
-  getAiBaseUrl: () => store.get('ai.baseUrl') || 'https://copadogpt-api.robotic.copado.com',
+getAiBaseUrl: () => store.get('ai.baseUrl') || 'https://eu-copadogpt-api.robotic.copado.com',
   setAiBaseUrl: (url) => store.set('ai.baseUrl', url),
   getAiOrgId: () => store.get('ai.orgId'),
   setAiOrgId: (id) => store.set('ai.orgId', id),

@@ -14,7 +14,7 @@ function getClient() {
   return axios.create({
     baseURL,
     headers: {
-      'X-Authorization': apiKey,
+      'X-Api-Key': apiKey,
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
@@ -23,6 +23,14 @@ function getClient() {
 }
 
 const VALID_AGENTS = ['plan', 'build', 'test', 'release', 'operate'];
+
+const AGENT_ASSISTANT_MAP = {
+  plan:    'plan',
+  build:   'build',
+  test:    'test',
+  release: 'release',
+  operate: 'operate'
+};
 
 const AI_AGENT_DESCRIPTIONS = {
   plan:    'Plan Agent    — User story refinement, conflict detection, sprint planning',
@@ -41,16 +49,21 @@ const AiClient = {
       throw new Error(`Invalid agent "${agentId}". Valid: ${VALID_AGENTS.join(', ')}`);
     }
     const client = getClient();
-    const orgId = Config.getAiOrgId();
-    const payload = { agentId };
-    if (orgId) payload.organizationId = orgId;
+    const workspaceId = Config.getAiOrgId();
+    const payload = {
+      name: `copado-hx-${agentId}-${Date.now()}`,
+      assistant_id: AGENT_ASSISTANT_MAP[agentId]
+    };
+    if (workspaceId) payload.workspace_id = workspaceId;
     const res = await client.post('/dialogues', payload);
     return res.data;
   },
 
   async sendMessage(dialogueId, message) {
     const client = getClient();
-    const res = await client.post(`/dialogues/${dialogueId}/messages`, { message });
+    const res = await client.post(`/dialogues/${dialogueId}/messages`, {
+      prompt: message
+    });
     return res.data;
   },
 

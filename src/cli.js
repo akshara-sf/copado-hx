@@ -11,6 +11,9 @@ const storyCmd = require('./commands/story');
 const { commitCmd, promoteCmd, deployCmd, statusCmd } = require('./commands/pipeline');
 const testCmd = require('./commands/test');
 const aiCmd = require('./commands/ai');
+const explainCmd = require('./commands/explain');
+const watchCmd = require('./commands/watch');
+const releaseNotesCmd = require('./commands/release-notes');
 
 const program = new Command();
 
@@ -54,6 +57,9 @@ program.addCommand(deployCmd);
 program.addCommand(statusCmd);
 program.addCommand(testCmd);
 program.addCommand(aiCmd);
+program.addCommand(explainCmd);
+program.addCommand(watchCmd);
+program.addCommand(releaseNotesCmd);
 
 program.action(() => {
   output.banner();
