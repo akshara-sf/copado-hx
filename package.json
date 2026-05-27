@@ -1,0 +1,26 @@
+{
+  "name": "copado-hx",
+  "version": "0.1.0",
+  "description": "Zero Browser. Full Pipeline. Any Agent.",
+  "bin": {
+    "copado-hx": "./bin/copado-hx.js"
+  },
+  "scripts": {
+    "start": "node bin/copado-hx.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "axios": "^1.6.0",
+    "chalk": "^4.1.2",
+    "cli-table3": "^0.6.3",
+    "commander": "^12.0.0",
+    "configstore": "^5.0.1",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "zod": "^4.4.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
