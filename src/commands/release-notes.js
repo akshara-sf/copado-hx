@@ -56,10 +56,10 @@ const releaseNotesCmd = new Command('release-notes')
            Format it as clean markdown.`;
 
       const { dialogueId, response } = await AiClient.ask(
-        'release',
-        prompt,
-        story
-      );
+  'release_notes',
+  prompt,
+  story
+);
 
       spinner.stop();
 
