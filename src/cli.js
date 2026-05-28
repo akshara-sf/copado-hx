@@ -5,6 +5,22 @@ const chalk = require('chalk');
 const pkg = require('../package.json');
 const Config = require('./config');
 const output = require('./utils/output');
+const { execSync } = require('child_process');
+
+// Version check on startup
+function checkVersion() {
+  try {
+    const current = pkg.version;
+    const latest = execSync('npm show copado-hx version', {
+      timeout: 3000, encoding: 'utf8', stdio: 'pipe'
+    }).trim();
+    if (latest && latest !== current) {
+      output.warn(`copado-hx v${latest} available (you have v${current})`);
+      output.dim('  Run: npm install -g copado-hx');
+      console.log('');
+    }
+  } catch { /* skip if offline */ }
+}
 
 const authCmd = require('./commands/auth');
 const storyCmd = require('./commands/story');
@@ -43,6 +59,7 @@ ${chalk.bold('AI Agents:')}
   ${chalk.hex('#7F77DD')('plan')} · ${chalk.hex('#7F77DD')('build')} · ${chalk.hex('#7F77DD')('test')} · ${chalk.hex('#7F77DD')('release')} · ${chalk.hex('#7F77DD')('operate')}
 `);
 
+checkVersion();
 program.hook('preAction', (thisCommand, actionCommand) => {
   const cmdName = actionCommand.parent?.name() || actionCommand.name();
   const isAuthCmd = cmdName === 'auth' || actionCommand.name() === 'auth' || actionCommand.name() === 'agents';

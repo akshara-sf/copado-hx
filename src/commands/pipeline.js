@@ -34,7 +34,18 @@ const commitCmd = new Command('commit')
       output.blank();
       output.detail('Commit ID', result.commitId || result.id || '—');
       output.detail('Status', output.statusBadge(result.status || 'Submitted'));
-      output.detail('Files committed', String(result.filesCommitted?.length ?? '—'));
+      // Show coloured diff
+if (result.filesCommitted && result.filesCommitted.length > 0) {
+  output.blank();
+  console.log(chalk.bold.white('  Changed files:'));
+  result.filesCommitted.forEach(file => {
+    const icon = file.operation === 'deleted' ? chalk.red('  - ') : chalk.green('  + ');
+    const color = file.operation === 'deleted' ? chalk.red : chalk.green;
+    console.log(icon + color(file.name || file));
+  });
+} else {
+  output.detail('Files committed', String(result.filesCommitted?.length ?? '—'));
+}
       output.blank();
       output.dim('Run `copado-hx status --watch` to follow progress.');
     } catch (err) {

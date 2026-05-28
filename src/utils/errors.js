@@ -29,13 +29,70 @@ function parseApiError(err) {
   return statusMessages[status] || `Unexpected error [${status}]`;
 }
 
-function handleError(err, jsonMode = false) {
+// Smart suggestions based on error context
+function getSuggestion(err, context) {
+  if (!err.response) {
+    if (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') {
+      return [
+        'Check your instance URL with `copado-hx auth status`',
+        'Re-authenticate with `copado-hx auth login`'
+      ];
+    }
+  }
+
+  const status = err.response?.status;
+  const suggestions = {
+    auth: [
+      'Run `copado-hx auth login` to re-authenticate',
+      'Check your API token hasn\'t expired'
+    ],
+    story: [
+      'Run `copado-hx story list` to see available stories',
+      'Check you have the correct pipeline ID in .copado-hx.json'
+    ],
+    commit: [
+      'Make sure you have an active story: `copado-hx story set --id <ID>`',
+      'Check your pipeline is source format (not metadata format)'
+    ],
+    promote: [
+      'Verify the environment name with `copado-hx status`',
+      'Make sure all tests pass before promoting'
+    ],
+    deploy: [
+      'Run `copado-hx doctor` to check your setup',
+      'Make sure tests passed before deploying to PROD'
+    ],
+    test: [
+      'Check your CRT project ID in `copado-hx auth status`',
+      'Run `copado-hx test list` to see available test suites'
+    ]
+  };
+
+  if (status === 401) return suggestions.auth;
+  return suggestions[context] || ['Run `copado-hx doctor` to diagnose issues'];
+}
+
+function handleError(err, jsonMode = false, context = null) {
   const message = parseApiError(err);
+
   if (jsonMode) {
     console.error(JSON.stringify({ error: true, message }, null, 2));
-  } else {
-    console.error(chalk.red('✖ ') + message);
+    process.exit(1);
+    return;
   }
+
+  console.error(chalk.red('✖ ') + message);
+
+  // Show smart suggestions
+  const suggestions = getSuggestion(err, context);
+  if (suggestions && suggestions.length > 0) {
+    console.error('');
+    suggestions.forEach(s => {
+      console.error(chalk.dim('  → ') + chalk.cyan(s));
+    });
+  }
+
+  console.error('');
   process.exit(1);
 }
 
