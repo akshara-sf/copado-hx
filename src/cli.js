@@ -14,6 +14,9 @@ const aiCmd = require('./commands/ai');
 const explainCmd = require('./commands/explain');
 const watchCmd = require('./commands/watch');
 const releaseNotesCmd = require('./commands/release-notes');
+const doctorCmd = require('./commands/doctor');
+const initCmd = require('./commands/init');
+const { historyCmd } = require('./commands/history');
 
 const program = new Command();
 
@@ -60,6 +63,9 @@ program.addCommand(aiCmd);
 program.addCommand(explainCmd);
 program.addCommand(watchCmd);
 program.addCommand(releaseNotesCmd);
+program.addCommand(doctorCmd);
+program.addCommand(initCmd);
+program.addCommand(historyCmd);
 
 program.action(() => {
   output.banner();

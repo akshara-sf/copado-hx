@@ -1,0 +1,19 @@
+{
+  "name": "sher-e-baloch",
+  "version": "1.0.0",
+  "pipeline": null,
+  "defaultEnv": "UAT",
+  "testSuite": null,
+  "notifications": true,
+  "agents": {
+    "preDeploy": "build",
+    "postDeploy": "release",
+    "onFailure": "release"
+  },
+  "guardrails": {
+    "requireTestsBeforeProd": true,
+    "requireHumanApprovalForProd": true,
+    "maxDestructiveActionsWithoutCheckpoint": 3
+  },
+  "created": "2026-05-28T19:34:18.773Z"
+}
