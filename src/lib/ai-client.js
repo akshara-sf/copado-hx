@@ -96,7 +96,11 @@ const AiClient = {
     return { dialogueId: dialogue.id, response };
   } catch (err) {
     // Fall back to mock mode if API unavailable
-    const mockText = MOCK_RESPONSES[agentId] || `Mock response from ${agentId} agent.`;
+    const mockText = agentId === 'release_notes' 
+  ? MOCK_RESPONSES['release_notes']
+  : agentId === 'release'
+    ? MOCK_RESPONSES['release']
+    : MOCK_RESPONSES[agentId] || `Mock response from ${agentId} agent for ${userStoryContext || 'this request'}.`;
     return {
       dialogueId: 'mock-' + Date.now(),
       response: mockText

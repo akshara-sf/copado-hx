@@ -33,6 +33,7 @@ const releaseNotesCmd = require('./commands/release-notes');
 const doctorCmd = require('./commands/doctor');
 const initCmd = require('./commands/init');
 const { historyCmd } = require('./commands/history');
+const workflowCmd = require('./commands/workflow');
 
 const program = new Command();
 
@@ -83,6 +84,7 @@ program.addCommand(releaseNotesCmd);
 program.addCommand(doctorCmd);
 program.addCommand(initCmd);
 program.addCommand(historyCmd);
+program.addCommand(workflowCmd);
 
 program.action(() => {
   output.banner();
