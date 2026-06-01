@@ -7,7 +7,7 @@ const output = require('../utils/output');
 
 const watchCmd = new Command('watch')
   .description('Live pipeline dashboard — see your entire Copado environment in real time')
-  .option('--interval <ms>', 'Refresh interval in milliseconds', '5000')
+  .option('--interval <ms>', 'Refresh interval in milliseconds', '10000')
   .option('--mock', 'Run with demo data (no credentials needed)')
   .action(async (opts) => {
     const isMock = opts.mock || !Config.isAuthenticated();
@@ -176,7 +176,7 @@ function drawDashboard(data) {
 
   console.log('');
   console.log(line);
-  console.log(chalk.dim('  Auto-refreshing every 5s · Press Ctrl+C to exit'));
+  console.log(chalk.dim('  Auto-refreshing every 10s · Press Ctrl+C to exit'));
   console.log('');
 }
 
