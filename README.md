@@ -116,7 +116,7 @@ copado-hx/
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/copado-hx.git
+git clone https://github.com/akshara-sf/copado-hx.git
 cd copado-hx
 
 # Install dependencies
